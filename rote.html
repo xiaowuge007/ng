@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html ng-app="myapp">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>angular ui路由</title>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+		<script src="js/jquery-1.11.0.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/angular.min.js"></script>
+		<script src="js/angular-ui-router.min.js"></script>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			
+			#box {
+				width: 1200px;
+				margin: 0 auto;
+				border: 1px solid #ccc;
+			}
+			
+			#navHeader {
+				width: 1200px;
+				margin: 0 auto;
+			}
+		</style>
+	</head>
+
+	<body>
+		<ul class="nav nav-tabs" id="navHeader">
+			<li class="active">
+				<a ui-sref="index">首页</a>
+			</li>
+			<li class="active">
+				<a ui-sref="fruit">水果</a>
+			</li>
+			<li>
+				<a ui-sref="vegetable">蔬菜</a>
+			</li>
+		</ul>
+		<p><button id="bn">按钮</button></p>
+		<div ui-view id="box"></div>
+	</body>
+	<script type="text/javascript">
+		angular.module('myapp', ['ui.router'])
+			.config(function($stateProvider, $urlRouterProvider) {
+				$urlRouterProvider.otherwise('/index');
+				$stateProvider
+					.state('fruit', {
+						url: '/fruit',
+						templateUrl: 'fruit.html',
+						controller: "ctrl"
+					})
+					.state('vegetable', {
+						url: '/vegetable',
+						templateUrl: 'vegetable.html'
+					})
+					.state('index', {
+						url: '/index',
+						templateUrl: 'index.html',
+						controller:'index'
+					})
+					.state('fruit.orange', {
+						url: '/orange',
+						templateUrl: 'temp/orange.html',
+						controller:'orange'
+					})
+					.state('fruit.apple', {
+						url: '/apple',
+						templateUrl: 'temp/apple.html'
+					})
+					.state('fruit.banana', {
+						url: '/banana',
+						templateUrl: 'temp/banana.html'
+					})
+					.state('fruit.orange.aa', {
+						url: '/aa',
+						templateUrl: 'temp/aa.html'
+					})
+					.state('fruit.orange.bb', {
+						url: '/bb',
+						templateUrl: 'temp/bb.html'
+					})
+					.state('fruit.orange.cc', {
+						url: '/cc',
+						templateUrl: 'temp/cc.html'
+					});
+			})
+			.controller("ctrl",function($state){
+				$state.go('fruit.orange');
+				$("#btn").click(function(){
+					window.location.href = 'http://www.baidu.com'
+				})
+			})
+			.controller("index",function($scope){
+				//console.log($("#btn"))
+				
+			})
+			.controller("orange",function($scope,$state){
+				//console.log($("#btn"))
+				$state.go('fruit.orange.aa');
+				$("#bn").click(function(){
+					$("#bn").css({
+						"background":"#f00"
+					})
+				})
+			})
+	</script>
+
+</html>
