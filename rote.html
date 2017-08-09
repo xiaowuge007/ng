@@ -9,6 +9,8 @@
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/angular.min.js"></script>
 		<script src="js/angular-ui-router.min.js"></script>
+		<script src="js/angular-ui-bootstrap.js"></script>
+		
 		<style type="text/css">
 			* {
 				margin: 0;
@@ -44,28 +46,26 @@
 		<div ui-view id="box"></div>
 	</body>
 	<script type="text/javascript">
-		angular.module('myapp', ['ui.router'])
+		angular.module('myapp', ['ui.router','ui.bootstrap'])
 			.config(function($stateProvider, $urlRouterProvider) {
 				$urlRouterProvider.otherwise('/index');
 				$stateProvider
 					.state('fruit', {
 						url: '/fruit',
-						templateUrl: 'fruit.html',
-						controller: "ctrl"
+						templateUrl: 'fruit.html'						
 					})
 					.state('vegetable', {
 						url: '/vegetable',
-						templateUrl: 'vegetable.html'
+						templateUrl: 'vegetable.html',
+						controller:'veg'
 					})
 					.state('index', {
 						url: '/index',
-						templateUrl: 'index.html',
-						controller:'index'
+						templateUrl: 'index.html'						
 					})
 					.state('fruit.orange', {
 						url: '/orange',
-						templateUrl: 'temp/orange.html',
-						controller:'orange'
+						templateUrl: 'temp/orange.html'						
 					})
 					.state('fruit.apple', {
 						url: '/apple',
@@ -88,16 +88,12 @@
 						templateUrl: 'temp/cc.html'
 					});
 			})
-			.controller("ctrl",function($state){
+			/*.controller("ctrl",function($state){
 				$state.go('fruit.orange');
 				$("#btn").click(function(){
 					window.location.href = 'http://www.baidu.com'
 				})
-			})
-			.controller("index",function($scope){
-				//console.log($("#btn"))
-				
-			})
+			})		
 			.controller("orange",function($scope,$state){
 				//console.log($("#btn"))
 				$state.go('fruit.orange.aa');
@@ -106,6 +102,36 @@
 						"background":"#f00"
 					})
 				})
+			})*/
+			.controller("veg",function($scope,$http,$timeout,$interval){
+				//console.log($("#btn"))
+				var arr = ['','','','','','']
+				$scope.lists = arr;
+				$http({
+					url:'js/b.json',
+					method:'GET'
+				}).then(function suc(res){
+					console.log(res.data)
+					$scope.bigTotalItems=9;
+					$scope.num = 6;
+					var arr1 =[];					
+					for(var m = 0;m<6;m++){
+						arr1.push(res.data[m])
+					}
+					$scope.lists = arr1;
+				    $scope.pageChanged=function(){
+				    	var a = $scope.bigCurrentPage;
+				    	var showarr =[];
+				    	for(var i=(a-1)*6;i<a*6;i++){
+				    		showarr.push(res.data[i])				    		
+				    	}
+				    	$scope.lists = showarr;
+				    }
+				},function err(res){
+					
+				})
+				console.log("11111")
+	          	
 			})
 	</script>
 
