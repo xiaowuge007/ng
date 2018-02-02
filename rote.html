@@ -1,35 +1,12 @@
 <!DOCTYPE html>
-<html ng-app="myapp">
-
+<html>
 	<head>
 		<meta charset="UTF-8">
 		<title>angular ui路由</title>
-		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
-		<script src="js/jquery-1.11.0.js"></script>
-		<script src="js/bootstrap.min.js"></script>
-		<script src="js/angular.min.js"></script>
-		<script src="js/angular-ui-router.min.js"></script>
-		<script src="js/angular-ui-bootstrap.js"></script>
-		
-		<style type="text/css">
-			* {
-				margin: 0;
-				padding: 0;
-			}
-			
-			#box {
-				width: 1200px;
-				margin: 0 auto;
-				border: 1px solid #ccc;
-			}
-			
-			#navHeader {
-				width: 1200px;
-				margin: 0 auto;
-			}
-		</style>
+		<link rel="stylesheet" type="text/css" href="css/common/bootstrap.min.css" />
+		<link rel="stylesheet" href="css/common/common.css">
+		<script data-main="main.js" src="js/bower_components/requirejs/require.js"></script>
 	</head>
-
 	<body>
 		<ul class="nav nav-tabs" id="navHeader">
 			<li class="active">
@@ -43,96 +20,7 @@
 			</li>
 		</ul>
 		<p><button id="bn">按钮</button></p>
-		<div ui-view id="box"></div>
+		<div ui-view></div>
 	</body>
-	<script type="text/javascript">
-		angular.module('myapp', ['ui.router','ui.bootstrap'])
-			.config(function($stateProvider, $urlRouterProvider) {
-				$urlRouterProvider.otherwise('/index');
-				$stateProvider
-					.state('fruit', {
-						url: '/fruit',
-						templateUrl: 'fruit.html'						
-					})
-					.state('vegetable', {
-						url: '/vegetable',
-						templateUrl: 'vegetable.html',
-						controller:'veg'
-					})
-					.state('index', {
-						url: '/index',
-						templateUrl: 'index.html'						
-					})
-					.state('fruit.orange', {
-						url: '/orange',
-						templateUrl: 'temp/orange.html'						
-					})
-					.state('fruit.apple', {
-						url: '/apple',
-						templateUrl: 'temp/apple.html'
-					})
-					.state('fruit.banana', {
-						url: '/banana',
-						templateUrl: 'temp/banana.html'
-					})
-					.state('fruit.orange.aa', {
-						url: '/aa',
-						templateUrl: 'temp/aa.html'
-					})
-					.state('fruit.orange.bb', {
-						url: '/bb',
-						templateUrl: 'temp/bb.html'
-					})
-					.state('fruit.orange.cc', {
-						url: '/cc',
-						templateUrl: 'temp/cc.html'
-					});
-			})
-			/*.controller("ctrl",function($state){
-				$state.go('fruit.orange');
-				$("#btn").click(function(){
-					window.location.href = 'http://www.baidu.com'
-				})
-			})		
-			.controller("orange",function($scope,$state){
-				//console.log($("#btn"))
-				$state.go('fruit.orange.aa');
-				$("#bn").click(function(){
-					$("#bn").css({
-						"background":"#f00"
-					})
-				})
-			})*/
-			.controller("veg",function($scope,$http,$timeout,$interval){
-				//console.log($("#btn"))
-				var arr = ['','','','','','']
-				$scope.lists = arr;
-				$http({
-					url:'js/b.json',
-					method:'GET'
-				}).then(function suc(res){
-					console.log(res.data)
-					$scope.bigTotalItems=9;
-					$scope.num = 6;
-					var arr1 =[];					
-					for(var m = 0;m<6;m++){
-						arr1.push(res.data[m])
-					}
-					$scope.lists = arr1;
-				    $scope.pageChanged=function(){
-				    	var a = $scope.bigCurrentPage;
-				    	var showarr =[];
-				    	for(var i=(a-1)*6;i<a*6;i++){
-				    		showarr.push(res.data[i])				    		
-				    	}
-				    	$scope.lists = showarr;
-				    }
-				},function err(res){
-					
-				})
-				console.log("11111")
-	          	
-			})
-	</script>
 
 </html>
